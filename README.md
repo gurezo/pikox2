@@ -18,10 +18,10 @@ bower install
 
  2. deployment to chirimen
 
- 3. enjoy Grove Digital Accelerometer sensor
+ 3. enjoy Grove Touch sensor
 
 ## How to construct circuit
 
 Japanese
 
-http://fabble.cc/chirimenedu/chirimeni2csensor
+memo:fabbleに回路図を書く
