@@ -1,8 +1,33 @@
+var _touchStates = new Array(12);
 var GROVETOUCH = function(i2cPort,slaveAddress){
   this.i2cPort = i2cPort;
   this.slaveAddress = slaveAddress;
 };
 
+GROVETOUCH.prototype = {
+  initialize: function() {
+    for (var lp=0; lp<_touchStates.length; lp++) {
+       _touchStates[lp]=0;
+    }
+   },
+  setup: function() {
+
+  },
+  checkInterrupt: function() {
+    // 割り込み確認
+  },
+  set_register: function() {
+
+  },
+  readTouchInputs: function() {
+
+  },
+  getTouchState: function() {
+
+  }
+}
+
+/*
 GROVETOUCH.prototype = {
   EARTH_GRAVITY_MS2:9.80665,
   SCALE_MULTIPLIER:0.004,
@@ -76,3 +101,4 @@ GROVETOUCH.prototype = {
     });
   }
 };
+*/
