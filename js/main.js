@@ -4,7 +4,8 @@ var IMAGE_HEIGHT = 50;
 var IMAGE_WIDTH = 50;
 
 //レイヤを画面に生成する処理
-function addImage(){
+function addImage() {
+  console.log("addImage() called!");
 
   //動的にDiv要素を生成する
   var elDiv = document.createElement('div');
@@ -13,6 +14,8 @@ function addImage(){
   //10～269の乱数を発生させる
   var RandLeft = 10 + Math.random()*260;
   var RandTop = 10 + Math.random()*260;
+  console.log("RandLeft = " + RandLeft);
+  console.log("RandTop = " + RandTop);
 
   //の初期表示位置
   elDiv.style.left = RandLeft ;
@@ -30,6 +33,7 @@ function addImage(){
   pikox2.appendChild(elDiv);
 }
 
+
 window.addEventListener('load', function (){
 
 // WebGPIO hummer touch
@@ -39,13 +43,13 @@ window.addEventListener('load', function (){
         return gpioAccess;
     }).then(gpio=>{
       var ledPort = gpio.ports.get(198);
-      var hummerPort = gpio.ports.get(199);
+      var buttonPort = gpio.ports.get(199);
       return Promise.all([
         ledPort.export("out"),
         buttonPort.export("in")
       ]).then(()=>{
         buttonPort.onchange = function(v){
-          console.log("hummer is pushed!");
+          console.log("button is pushed!");
           v = v ? 0 : 1;
           ledPort.write(v);
           addImage();
