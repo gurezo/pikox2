@@ -11,4 +11,10 @@ body{
 
 #pikox2 {
   position: absolute;
+/*
+  left:3px;
+  top:3px;
+*/
+	height: 600px;
+	width: 1024px;
 }

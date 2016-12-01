@@ -1,7 +1,7 @@
 'use strict';
 
-var IMAGE_HEIGHT = 100;
-var IMAGE_WIDTH = 100;
+var IMAGE_HEIGHT = 50;
+var IMAGE_WIDTH = 50;
 
 //レイヤを画面に生成する処理
 function addImage(){
@@ -29,3 +29,20 @@ function addImage(){
   //ゲーム画面にボールレイヤ（Div)を組み込む
   pikox2.appendChild(elDiv);
 }
+
+window.addEventListener('load', function (){
+
+// WebGPIO hummer input
+  navigator.requestGPIOAccess()
+    .then(gpioAccess=>{
+      var port = gpioAccess.ports.get(198);
+      var v = 0;
+      return port.export("out").then(()=>{
+        setInterval(function(){
+          if (v===1) {
+            addImage();
+          }
+        },500);
+      });
+  });
+}, false);
