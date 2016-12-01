@@ -32,17 +32,26 @@ function addImage(){
 
 window.addEventListener('load', function (){
 
-// WebGPIO hummer input
-  navigator.requestGPIOAccess()
-    .then(gpioAccess=>{
-      var port = gpioAccess.ports.get(198);
-      var v = 0;
-      return port.export("out").then(()=>{
-        setInterval(function(){
-          if (v===1) {
-            addImage();
-          }
-        },500);
+// WebGPIO hummer touch
+  navigator.requestGPIOAccess().then(
+    function(gpioAccess) {
+        console.log("GPIO ready!");
+        return gpioAccess;
+    }).then(gpio=>{
+      var ledPort = gpio.ports.get(198);
+      var hummerPort = gpio.ports.get(199);
+      return Promise.all([
+        ledPort.export("out"),
+        buttonPort.export("in")
+      ]).then(()=>{
+        buttonPort.onchange = function(v){
+          console.log("hummer is pushed!");
+          v = v ? 0 : 1;
+          ledPort.write(v);
+          addImage();
+        }
       });
+  }).catch(error=>{
+    console.log("Failed to get GPIO access catch: " + error.message);
   });
 }, false);
