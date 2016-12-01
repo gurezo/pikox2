@@ -2,6 +2,7 @@
 
 var IMAGE_HEIGHT = 50;
 var IMAGE_WIDTH = 50;
+var bootflg = true;
 
 //レイヤを画面に生成する処理
 function addImage() {
@@ -12,8 +13,11 @@ function addImage() {
   elDiv.style.position = "absolute";
 
   //10～269の乱数を発生させる
-  var RandLeft = 10 + Math.random()*260;
-  var RandTop = 10 + Math.random()*260;
+//  var RandLeft = 10 + Math.random()*260;
+//  var RandTop = 10 + Math.random()*260;
+
+  var RandLeft = 10 + Math.random()*130;
+  var RandTop = 10 + Math.random()*130;
   console.log("RandLeft = " + RandLeft);
   console.log("RandTop = " + RandTop);
 
@@ -52,7 +56,12 @@ window.addEventListener('load', function (){
           console.log("button is pushed!");
           v = v ? 0 : 1;
           ledPort.write(v);
-          addImage();
+
+          if (bootflg) {
+            bootflg = false;
+          } else {
+            addImage();
+          }
         }
       });
   }).catch(error=>{
