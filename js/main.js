@@ -1,29 +1,28 @@
 'use strict';
 
-var IMAGE_HEIGHT = 50;
-var IMAGE_WIDTH = 50;
+var IMAGE_HEIGHT = 100;
+var IMAGE_WIDTH = 100;
 var bootflg = true;
+var AHIRU_MAX = 10;
+var ahiru_count = 0;
 
 //レイヤを画面に生成する処理
 function addImage() {
-  console.log("addImage() called!");
 
   //動的にDiv要素を生成する
   var elDiv = document.createElement('div');
   elDiv.style.position = "absolute";
 
   //10～269の乱数を発生させる
-//  var RandLeft = 10 + Math.random()*260;
-//  var RandTop = 10 + Math.random()*260;
+  var RandLeft = 10 + Math.random()*1200;
+  var RandTop = 10 + Math.random()*1024;
 
-  var RandLeft = 10 + Math.random()*130;
-  var RandTop = 10 + Math.random()*130;
   console.log("RandLeft = " + RandLeft);
   console.log("RandTop = " + RandTop);
 
-  //の初期表示位置
-  elDiv.style.left = RandLeft ;
-  elDiv.style.top = RandTop ;
+  //初期表示位置
+  elDiv.style.left = RandLeft + 'px';
+  elDiv.style.top = RandTop + 'px';
 
   //イメージ画像を読み込む
   var insImg = document.createElement('img');
@@ -37,6 +36,16 @@ function addImage() {
   pikox2.appendChild(elDiv);
 }
 
+function checkAhiru() {
+  if (ahiru_count > AHIRU_MAX) {
+    console.log("ahiru max");
+    ahiru_count = 0
+    var aNode = document.getElementById("pikox2");
+    for (var i =aNode.childNodes.length-1; i>=0; i--) {
+      aNode.removeChild(aNode.childNodes[i]);
+    }
+  }
+}
 
 window.addEventListener('load', function (){
 
@@ -46,21 +55,20 @@ window.addEventListener('load', function (){
         console.log("GPIO ready!");
         return gpioAccess;
     }).then(gpio=>{
-      var ledPort = gpio.ports.get(198);
       var buttonPort = gpio.ports.get(199);
       return Promise.all([
-        ledPort.export("out"),
         buttonPort.export("in")
       ]).then(()=>{
         buttonPort.onchange = function(v){
           console.log("button is pushed!");
           v = v ? 0 : 1;
-          ledPort.write(v);
-
           if (bootflg) {
             bootflg = false;
+            ahiru_count = 0;
           } else {
             addImage();
+            checkAhiru();
+            ahiru_count++;
           }
         }
       });
