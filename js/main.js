@@ -13,7 +13,7 @@ function addImage() {
   var elDiv = document.createElement('div');
   elDiv.style.position = "absolute";
 
-  //10～269の乱数を発生させる
+  //乱数を発生させる
   var RandLeft = 10 + Math.random()*1200;
   var RandTop = 10 + Math.random()*1024;
 
@@ -32,7 +32,7 @@ function addImage() {
 
   //Divにを組み込む
   elDiv.appendChild(insImg);
-  //ゲーム画面にボールレイヤ（Div)を組み込む
+  //画面にレイヤ（Div)を組み込む
   pikox2.appendChild(elDiv);
 }
 
